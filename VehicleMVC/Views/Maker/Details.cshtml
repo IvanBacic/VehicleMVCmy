@@ -1,0 +1,47 @@
+﻿@model VehicleMVC.MakerViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MakerViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MakerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MakerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MakerDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MakerDescription)
+        </dd>   
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MakersModels)
+
+        </dt>
+        @foreach (var item in Model.MakersModels)
+        {
+            <dd>
+                @Html.DisplayFor(model => item.ModelName)
+
+            </dd>
+        }
+
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MakeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
