@@ -28,14 +28,14 @@
 
         <dt>
             @Html.DisplayNameFor(model => model.MakersModels)
+            <strong>:  </strong>
 
         </dt>
+      
         @foreach (var item in Model.MakersModels)
         {
-            <dd>
+            <i>  </i>
                 @Html.DisplayFor(model => item.ModelName)
-
-            </dd>
         }
 
     </dl>

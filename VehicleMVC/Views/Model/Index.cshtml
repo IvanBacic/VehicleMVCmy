@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.ModelName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MakeID)
+            @Html.DisplayNameFor(model => model.ModelsMaker.MakerName)
         </th>
         <th></th>
     </tr>
@@ -26,7 +26,7 @@
             @Html.DisplayFor(modelItem => item.ModelName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MakeID)
+            @Html.DisplayFor(modelItem => item.ModelsMaker.MakerName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ModelID }) |

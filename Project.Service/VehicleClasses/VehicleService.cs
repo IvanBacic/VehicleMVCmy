@@ -101,5 +101,23 @@ namespace Project.Service
             }
             return context.Models.Find(id);
         }
+
+        public IList<IVehicleModel> FindModelsFromMaker(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return null;
+            }
+            IList<IVehicleModel> findAll=new List<IVehicleModel>();
+            foreach (IVehicleModel find in context.Models )
+            {
+                if (find.MakeID == id)
+                {
+                    findAll.Add(find);
+                }
+            }
+            return findAll;
+        }
+
     }
 }

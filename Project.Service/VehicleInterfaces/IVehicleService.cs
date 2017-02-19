@@ -28,6 +28,7 @@ namespace Project.Service
 
         IVehicleMake FindMaker(int? id);
         IVehicleModel FindModel(int? id);
-  
+
+        IList<IVehicleModel> FindModelsFromMaker(int? id);
         }
 }

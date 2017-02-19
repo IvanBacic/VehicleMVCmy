@@ -26,8 +26,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MakeID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MakeID, new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.DropDownList("MakeID", ViewBag.ModelID as SelectList)
                 @Html.ValidationMessageFor(model => model.MakeID, "", new { @class = "text-danger" })
+              
             </div>
         </div>
 
@@ -46,3 +48,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+

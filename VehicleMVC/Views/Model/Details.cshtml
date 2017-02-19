@@ -8,8 +8,9 @@
 
 <div>
     <h4>ModelViewModel</h4>
-    <hr />
+    <hr /
     <dl class="dl-horizontal">
+ 
         <dt>
             @Html.DisplayNameFor(model => model.ModelName)
         </dt>
@@ -21,9 +22,10 @@
         <dt>
             @Html.DisplayNameFor(model => model.ModelsMaker)
         </dt>
-
+        
         <dd>
-            @Html.DisplayFor(model => model.ModelsMaker)
+            
+            @Html.DisplayFor(model => model.ModelsMaker.MakerName)
         </dd>
 
     </dl>

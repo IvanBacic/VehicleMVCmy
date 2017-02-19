@@ -24,6 +24,10 @@ namespace VehicleMVC.Controllers
         public ActionResult Index()
         {
             IList<IVehicleModel> model = Service.GetModels();
+            foreach (IVehicleModel item in model)
+            {
+                item.ModelsMaker = Service.FindMaker(item.MakeID);
+            }
             IList<ModelViewModel> Models = AutoMapper.Mapper.Map<IList<ModelViewModel>>(model);
             return View(Models);
         }
@@ -35,15 +39,18 @@ namespace VehicleMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
            IVehicleModel model =Service.FindModel(id);
+           ModelViewModel Model = AutoMapper.Mapper.Map<ModelViewModel>(model);
+            Model.ModelsMaker = Service.FindMaker(model.MakeID);
             if (model == null)
             {
                 return HttpNotFound();
             }
-            return View(model);
+            return View(Model);
         }
 
         public ActionResult Create()
         {
+            ViewBag.MakeID = new SelectList(Service.GetMakers(), "MakeID", "MakerName"); 
             return View();
         }
 
@@ -66,6 +73,7 @@ namespace VehicleMVC.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             ViewBag.MakeID = new SelectList(Service.GetMakers(),"MakeID","MakerName",model.MakeID);
+            
             return View(model);
         }
 

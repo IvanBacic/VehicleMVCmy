@@ -12,7 +12,6 @@ namespace VehicleMVC.Controllers
 {
     public class MakerController : Controller 
     {
-
         public MakerController(IVehicleService service)
         {          
                 this.Service = service;    
@@ -34,6 +33,7 @@ namespace VehicleMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             IVehicleMake maker = Service.FindMaker(id);
+            maker.MakersModels = Service.FindModelsFromMaker(id);
             if (maker == null)
             {
                 return HttpNotFound();
@@ -63,7 +63,7 @@ namespace VehicleMVC.Controllers
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-            }
+            }          
             return View(maker);
         }
 
