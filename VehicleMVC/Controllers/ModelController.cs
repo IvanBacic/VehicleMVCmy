@@ -24,10 +24,6 @@ namespace VehicleMVC.Controllers
         public ActionResult Index()
         {
             IList<IVehicleModel> model = Service.GetModels();
-            foreach (IVehicleModel item in model)
-            {
-                item.ModelsMaker = Service.FindMaker(item.MakeID);
-            }
             IList<ModelViewModel> Models = AutoMapper.Mapper.Map<IList<ModelViewModel>>(model);
             return View(Models);
         }

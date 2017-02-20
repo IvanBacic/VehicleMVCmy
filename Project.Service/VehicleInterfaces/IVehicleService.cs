@@ -14,7 +14,9 @@ namespace Project.Service
         IList<IVehicleModel> GetModels();
         IList<IVehicleMake> GetMakers();
 
-        void SortMakers();
+        void BindModelsWithMaker();
+        void BindMakersWithModels();
+        void SortMakers(string sortOrder);
         void SortModels();
 
         void DeleteMaker(int makerId);

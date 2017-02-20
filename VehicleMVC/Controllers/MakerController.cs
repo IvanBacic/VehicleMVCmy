@@ -19,10 +19,10 @@ namespace VehicleMVC.Controllers
 
         private  IVehicleService Service;
 
-        public ActionResult Index()
-        {
-            IList<IVehicleMake> maker = Service.GetMakers();
-            IList<MakerViewModel> Makers = AutoMapper.Mapper.Map<IList<MakerViewModel>>(maker);
+        public ActionResult Index(string sortOrder)
+        {        
+            IList<IVehicleMake> makers = Service.GetMakers();
+            IList<MakerViewModel> Makers = AutoMapper.Mapper.Map<IList<MakerViewModel>>(makers);
             return View(Makers);
         }
 
@@ -33,7 +33,7 @@ namespace VehicleMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             IVehicleMake maker = Service.FindMaker(id);
-            maker.MakersModels = Service.FindModelsFromMaker(id);
+            maker.MakersModels = Service.FindModelsFromMaker(maker.MakeID);
             if (maker == null)
             {
                 return HttpNotFound();
@@ -63,7 +63,9 @@ namespace VehicleMVC.Controllers
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-            }          
+            }
+
+          
             return View(maker);
         }
 

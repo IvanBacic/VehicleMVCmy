@@ -29,6 +29,7 @@ namespace Project.Service
         {
             IList <VehicleModel> models = context.Models.ToList();
             IList<IVehicleModel> Models = Mapper.Map<IList<IVehicleModel>>(models);
+            BindModelsWithMaker();
             return Models;
         }
 
@@ -36,13 +37,43 @@ namespace Project.Service
         {
             IList<VehicleMake> makers = context.Makers.ToList();
             IList<IVehicleMake> Makers = Mapper.Map<IList<IVehicleMake>>(makers);
+            BindMakersWithModels();
             return Makers;
         }
 
-        public void SortMakers()
+        public void BindModelsWithMaker()
         {
-            context.Makers.OrderByDescending(sortby => sortby.MakerName);
-            context.SaveChanges();
+            foreach (IVehicleModel item in context.Models)
+            {
+                item.ModelsMaker = FindMaker(item.MakeID);
+            }
+        }
+
+        public void BindMakersWithModels()
+        {
+            foreach (IVehicleMake item in context.Makers)
+            {
+                item.MakersModels = FindModelsFromMaker(item.MakeID);
+            }
+        }
+
+        public void SortMakers(string sortOrder)
+        {
+
+            var students = from s in context.Makers
+                           select s;
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    students = students.OrderByDescending(s => s.MakerName);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.MakerName);
+                    break;
+            }
+
+                    context.SaveChanges();
         }
 
         public void SortModels()
