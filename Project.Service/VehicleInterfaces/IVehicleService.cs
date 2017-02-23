@@ -16,14 +16,14 @@ namespace Project.Service
 
         void BindModelsWithMaker();
         void BindMakersWithModels();
-        void SortMakers(string sortOrder);
-        void SortModels();
+        IList<IVehicleMake> GetSortedMakers(string sortOrder,string searchString);
+        IList<IVehicleModel> GetSortedModels(string sortOrder, string searchString);
 
-        void DeleteMaker(int makerId);
-        void DeleteModel(int modelId);
+        void DeleteMaker(int? makerId);
+        void DeleteModel(int? modelId);
 
-        void UpdateMaker(VehicleMake vehicleMake);
-        void UpdateModel(VehicleModel vehicleModel);
+        void UpdateMaker(IVehicleMake vehicleMake);
+        void UpdateModel(IVehicleModel vehicleModel);
 
         IVehicleModel SerchModel(string modelName);
         IVehicleMake SerchMaker(string makerName);

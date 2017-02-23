@@ -11,6 +11,6 @@ namespace Project.Service
     {
         public IDbSet<VehicleMake> Makers { get; set; }
         public IDbSet<VehicleModel> Models { get; set; }
-
+       
     }
 }

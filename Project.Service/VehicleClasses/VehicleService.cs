@@ -27,7 +27,7 @@ namespace Project.Service
 
         public IList<IVehicleModel> GetModels()
         {
-            IList <VehicleModel> models = context.Models.ToList();
+            IList<VehicleModel> models = context.Models.ToList();
             IList<IVehicleModel> Models = Mapper.Map<IList<IVehicleModel>>(models);
             BindModelsWithMaker();
             return Models;
@@ -45,8 +45,10 @@ namespace Project.Service
         {
             foreach (IVehicleModel item in context.Models)
             {
-                item.ModelsMaker = FindMaker(item.MakeID);
+                    item.ModelsMaker = FindMaker(item.MakeID);
+                
             }
+            context.SaveChanges();
         }
 
         public void BindMakersWithModels()
@@ -55,51 +57,97 @@ namespace Project.Service
             {
                 item.MakersModels = FindModelsFromMaker(item.MakeID);
             }
+            context.SaveChanges();
         }
 
-        public void SortMakers(string sortOrder)
+        public IList<IVehicleMake> GetSortedMakers(string sortOrder,string searchString)
         {
+            BindMakersWithModels();
 
-            var students = from s in context.Makers
+            var Makers = from s in context.Makers
                            select s;
-
-            switch (sortOrder)
+         
+            if (!String.IsNullOrEmpty(searchString))
             {
-                case "name_desc":
-                    students = students.OrderByDescending(s => s.MakerName);
-                    break;
-                default:
-                    students = students.OrderBy(s => s.MakerName);
-                    break;
+                Makers = Makers.Where(s => s.MakerName.Contains(searchString)
+                                       || s.MakerDescription.Contains(searchString));
             }
 
-                    context.SaveChanges();
+            if (sortOrder == "name_desc")
+            {
+                Makers = Makers.OrderByDescending(s => s.MakerName);
+            }
+            else
+            {
+                Makers = Makers.OrderBy(s => s.MakerName);
+            }
+
+            IList<IVehicleMake> makers = Mapper.Map<IList<IVehicleMake>>(Makers);
+       
+
+            return makers;
         }
 
-        public void SortModels()
+        public IList<IVehicleModel> GetSortedModels(string sortOrder, string searchString)
         {
-            context.Models.OrderByDescending(sortby => sortby.ModelName);
-            context.SaveChanges();
+
+            BindModelsWithMaker();
+
+            var Models = from s in context.Models
+                         select s;
+
+       
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Models = Models.Where(s => s.ModelName.Contains(searchString));
+                                      
+            }
+
+            if (sortOrder == "name_desc")
+            {
+                Models = Models.OrderByDescending(s => s.ModelName);
+            }
+            else
+            {
+                Models = Models.OrderBy(s => s.ModelName);
+            }
+
+            IList<IVehicleModel> models = Mapper.Map<IList<IVehicleModel>>(Models);
+          
+            return models;
         }
 
-        public void DeleteMaker(int makerId)
+
+        public void DeleteMaker(int? makerID)
         {
-            context.Makers.Remove(context.Makers.Find(makerId));
-            context.SaveChanges();
+            if (makerID.HasValue)
+            {      
+                    foreach (IVehicleModel model in FindModelsFromMaker(makerID))
+                    {
+                        context.Models.Remove(context.Models.Find(model.ModelID));
+                    }
+                
+                context.Makers.Remove(context.Makers.Find(makerID));
+                context.SaveChanges();
+            }
         }
 
-        public void DeleteModel(int modelId)
+        public void DeleteModel(int? modelId)
         {
-            context.Models.Remove(context.Models.Find(modelId));
-            context.SaveChanges();
+            if (modelId.HasValue)
+            {
+                context.Models.Remove(context.Models.Find(modelId));
+                context.SaveChanges();
+            }
         }
 
-        public void UpdateMaker(VehicleMake vehicleMake)
+        public void UpdateMaker(IVehicleMake vehicleMake)
         {
             context.Entry(vehicleMake).State = EntityState.Modified;
             context.SaveChanges();
         }
-        public void UpdateModel(VehicleModel vehicleModel)
+        public void UpdateModel(IVehicleModel vehicleModel)
         {
             context.Entry(vehicleModel).State = EntityState.Modified;
             context.SaveChanges();

@@ -1,0 +1,40 @@
+﻿@model VehicleMVC.MakerViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+<p class="error">@ViewBag.ErrorMessage</p>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MakerViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MakerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MakerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MakerDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MakerDescription)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
