@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using PagedList;
+
 namespace VehicleMVC.Controllers
 {
     public class MakerController : Controller 
@@ -28,7 +28,9 @@ namespace VehicleMVC.Controllers
             IList<IVehicleMake> makers =Service.GetSortedMakers(sortOrder,searchString);
             IList<MakerViewModel> Makers = AutoMapper.Mapper.Map<IList<MakerViewModel>>(makers);
 
-            return View(Makers.ToPagedList(page ?? 1,3));
+            PagedList<MakerViewModel> pagedMakers = new PagedList<MakerViewModel>(Makers, Convert.ToInt32(page), 3);
+
+            return View(pagedMakers);
         }
 
         public ActionResult Details(int? id)

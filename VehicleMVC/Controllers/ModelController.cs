@@ -7,7 +7,6 @@ using Project.Service;
 using VehicleMVC;
 using System.Net;
 using System.Data;
-using PagedList;
 namespace VehicleMVC.Controllers
 {
     public class ModelController : Controller
@@ -17,21 +16,24 @@ namespace VehicleMVC.Controllers
             this.Service = service;
         }
 
-        private readonly IVehicleService Service;
+        private readonly IVehicleService Service; 
 
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-            if (searchString != null) { page = 1; }
+            if (searchString != null) { page = 0; }
             else { searchString = currentFilter; }
             ViewBag.CurrentFilter = searchString;
 
             IList<IVehicleModel> model = Service.GetSortedModels(sortOrder,searchString);
+
             IList<ModelViewModel> Models = AutoMapper.Mapper.Map<IList<ModelViewModel>>(model);
 
-            return View(Models.ToPagedList(page ?? 1,3));
+            PagedList<ModelViewModel> pagedModels = new PagedList<ModelViewModel>(Models, Convert.ToInt32(page), 3);
+
+            return View(pagedModels);
         }
 
 

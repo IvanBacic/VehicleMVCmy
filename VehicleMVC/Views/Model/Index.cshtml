@@ -1,6 +1,4 @@
-﻿@using PagedList;
-@using PagedList.Mvc;
-@model IPagedList<VehicleMVC.ModelViewModel>
+﻿@model PagedList<VehicleMVC.ModelViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -28,12 +26,6 @@
         </th>
         <th></th>
     </tr>
-    @if (Model.Count == 0)
-    {
-        <tr>
-            <td>No match</td>
-        </tr>
-    }
 
 @foreach (var item in Model) {
     <tr>
@@ -51,8 +43,20 @@
     </tr>
 }
 
-</table>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</table>
+
+<p>
+    @if (Model.HasPreviousPage) { 
+
+    @Html.ActionLink("<<<", "Index", new { page = (Model.PageIndex-1) })
+
+     } 
+
+     @if (Model.HasNextPage) {  
+
+    @Html.ActionLink(">>>", "Index", new { page = (Model.PageIndex + 1) } )
+
+     }
+
+</p>
